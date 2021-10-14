@@ -17,18 +17,24 @@ pub trait ScaledTimeDelta {
 }
 
 #[derive(SystemParam)]
-pub struct ScaledTime<'a> {
-    pub time: Res<'a, Time>,
-    pub time_scale: Res<'a, TimeScale>,
+pub struct ScaledTime<'w, 's> {
+    pub time: Res<'w, Time>,
+    pub time_scale: Res<'w, TimeScale>,
+
+    #[system_param(ignore)]
+    _phantom: PhantomData<&'s ()>
 }
 
 #[derive(SystemParam)]
-pub struct ScaledTimeMut<'a> {
-    pub time: Res<'a, Time>,
-    pub time_scale: ResMut<'a, TimeScale>,
+pub struct ScaledTimeMut<'w, 's> {
+    pub time: Res<'w, Time>,
+    pub time_scale: ResMut<'w, TimeScale>,
+
+    #[system_param(ignore)]
+    _phantom: PhantomData<&'s ()>
 }
 
-impl ScaledTimeFields for ScaledTime<'_> {
+impl ScaledTimeFields for ScaledTime<'_,  '_> {
     fn time(&self) -> &Time {
         &self.time
     }
@@ -38,7 +44,7 @@ impl ScaledTimeFields for ScaledTime<'_> {
     }
 }
 
-impl ScaledTimeFields for ScaledTimeMut<'_> {
+impl ScaledTimeFields for ScaledTimeMut<'_,  '_> {
     fn time(&self) -> &Time {
         &self.time
     }
@@ -70,7 +76,7 @@ impl<T: ScaledTimeFields> ScaledTimeDelta for T {
     }
 }
 
-impl ScaledTimeMut<'_> {
+impl ScaledTimeMut<'_,  '_> {
     pub fn set_time_scale(&mut self, scale: f32) {
         self.time_scale.0 = scale;
     }
