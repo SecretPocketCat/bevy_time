@@ -5,4 +5,4 @@ authors = ["SecretPocketCat <jiridexterhanc@gmail.com>"]
 edition = "2021"
 
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", rev = "07ed1d053e7946a116ce3eef273fc93dd246f49d", default-features = false }
+bevy = { version = "0.6.1", default-features = false }
