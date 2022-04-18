@@ -1,9 +1,4 @@
-use bevy::{
-    input::{
-        InputSystem,
-    },
-    prelude::*,
-};
+use bevy::prelude::*;
 use crate::TimeScale;
 
 pub struct TimePlugin;
